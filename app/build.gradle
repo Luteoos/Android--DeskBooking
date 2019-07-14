@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.0"
+    defaultConfig {
+        applicationId "io.github.luteoos.booker"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "$app_version"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "DeskBooker"
+        }
+        debug {
+            minifyEnabled false
+            applicationIdSuffix ".debug"
+            resValue "string", "app_name", "DeskBooker - debug"
+        }
+    }
+    flavorDimensions "server"
+    productFlavors {
+        production {
+            dimension "server"
+            buildConfigField("String", "BASE_URL", "\"\"")
+        }
+        staging {
+            dimension "server"
+            applicationIdSuffix ".dev"
+            buildConfigField("String", "BASE_URL", "\"\"")
+        }
+    }
+        compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //basic architecture component
+    implementation 'com.github.Luteoos:Android--MVVMLib:3.1.0x'
+}
